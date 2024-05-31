@@ -11,18 +11,17 @@ resources:
 - repo: self
 
 variables:
-
-  # So, Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '54db0fff-b4f2-43e5-9a16-58d1efeddf2c'
-  imageRepository: 'votingapplication'
-  containerRegistry: 'rahulazureregistry26032024.azurecr.io'
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'bda5e30e-67ea-4a74-80d7-71d66c68a223'
+  imageRepository: 'voteapp/worker'
+  containerRegistry: 'containerregistryvoteapp.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/worker/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
-  #vmImageName: 'ubuntu-latest'
+  # vmImageName: 'ubuntu-latest'
 pool:
-  name: 'azurepool26032024' 
+  name: 'azurepool-may' 
 stages:
 - stage: Build
   displayName: Build
@@ -31,7 +30,7 @@ stages:
     displayName: Build the Image
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build the image
       inputs:
         containerRegistry: '$(dockerRegistryServiceConnection)'
         repository: '$(imageRepository)'
@@ -46,7 +45,7 @@ stages:
     displayName: Push the Image
     steps:
     - task: Docker@2
-      displayName: Push and push an image to container registry
+      displayName: Push the image to container registry
       inputs:
         containerRegistry: '$(dockerRegistryServiceConnection)'
         repository: '$(imageRepository)'
